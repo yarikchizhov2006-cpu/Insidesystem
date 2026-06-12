@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Госслужба — твой трек</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300..800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="light"] {
+  --color-bg: #f4f3ef;
+  --color-surface: #f9f8f5;
+  --color-surface-2: #ffffff;
+  --color-surface-offset: #ece9e4;
+  --color-divider: #dcd9d4;
+  --color-border: #d1cec8;
+  --color-text: #1e1c17;
+  --color-text-muted: #6e6d68;
+  --color-text-faint: #b0afa9;
+  --color-text-inverse: #f9f8f5;
+  --color-primary: #1a5c6b;
+  --color-primary-hover: #0f3d4a;
+  --color-primary-light: #d0e6ea;
+  --color-accent-А: #1a5c6b;
+  --color-accent-Б: #5a7a2e;
+  --color-accent-В: #2e5fa3;
+  --color-accent-Г: #7a3a2e;
+  --color-accent-Д: #7a5a2e;
+  --color-accent-Е: #3a4e7a;
+  --color-light-А: #d4eaee;
+  --color-light-Б: #d9e8c4;
+  --color-light-В: #cfdcf0;
+  --color-light-Г: #ecd5cf;
+  --color-light-Д: #ecddd0;
+  --color-light-Е: #d0d8ec;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(30,28,23,0.06), 0 1px 2px rgba(30,28,23,0.04);
+  --shadow-md: 0 4px 16px rgba(30,28,23,0.08), 0 2px 6px rgba(30,28,23,0.05);
+  --shadow-lg: 0 12px 40px rgba(30,28,23,0.12), 0 4px 12px rgba(30,28,23,0.06);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+  --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+  --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+  --transition: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-theme="dark"] {
+  --color-bg: #141311;
+  --color-surface: #1a1917;
+  --color-surface-2: #1f1e1c;
+  --color-surface-offset: #242220;
+  --color-divider: #2a2826;
+  --color-border: #353330;
+  --color-text: #e8e7e3;
+  --color-text-muted: #908f8a;
+  --color-text-faint: #5a5956;
+  --color-text-inverse: #1a1917;
+  --color-primary: #5aa0ae;
+  --color-primary-hover: #3d8694;
+  --color-primary-light: #1e3a40;
+  --color-accent-А: #5aa0ae;
+  --color-accent-Б: #84aa52;
+  --color-accent-В: #6488cc;
+  --color-accent-Г: #c07060;
+  --color-accent-Д: #c09060;
+  --color-accent-Е: #7088cc;
+  --color-light-А: #1e3a40;
+  --color-light-Б: #283a16;
+  --color-light-В: #1e2e4a;
+  --color-light-Г: #3a2220;
+  --color-light-Д: #3a3020;
+  --color-light-Е: #202840;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.45);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: #141311; --color-surface: #1a1917; --color-surface-2: #1f1e1c;
+    --color-surface-offset: #242220; --color-divider: #2a2826; --color-border: #353330;
+    --color-text: #e8e7e3; --color-text-muted: #908f8a; --color-text-faint: #5a5956;
+    --color-text-inverse: #1a1917; --color-primary: #5aa0ae; --color-primary-hover: #3d8694;
+    --color-primary-light: #1e3a40;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); min-height: 100dvh; line-height: 1.65; transition: background var(--transition), color var(--transition); }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+h1,h2,h3,h4 { text-wrap: balance; line-height: 1.2; }
+p, li { text-wrap: pretty; }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+/* Layout */
+.container { max-width: 760px; margin-inline: auto; padding-inline: var(--space-4); }
+.container--wide { max-width: 1000px; margin-inline: auto; padding-inline: var(--space-4); }
+
+/* Header */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in oklab, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-divider);
+  padding: var(--space-3) 0;
+  transition: background var(--transition);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.logo { display: flex; align-items: center; gap: var(--space-2); text-decoration: none; color: var(--color-text); font-weight: 700; font-size: var(--text-sm); letter-spacing: -0.01em; }
+.logo svg { color: var(--color-primary); flex-shrink: 0; }
+.theme-toggle {
+  width: 40px; height: 40px; border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted); background: var(--color-surface-offset);
+  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+}
+.theme-toggle:hover { background: var(--color-border); color: var(--color-text); }
+
+/* Hero */
+.hero {
+  padding: clamp(var(--space-12), 8vw, var(--space-20)) 0 clamp(var(--space-10), 6vw, var(--space-16));
+  text-align: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--color-primary-light); color: var(--color-primary);
+  font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: var(--text-2xl);
+  color: var(--color-text); margin-bottom: var(--space-5);
+  max-width: 18ch; margin-inline: auto;
+}
+.hero p {
+  font-size: var(--text-lg); color: var(--color-text-muted);
+  max-width: 52ch; margin-inline: auto; margin-bottom: var(--space-8);
+  line-height: 1.7;
+}
+.hero-meta { display: flex; align-items: center; justify-content: center; gap: var(--space-6); flex-wrap: wrap; margin-bottom: var(--space-8); }
+.hero-meta-item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+.hero-meta-item svg { color: var(--color-primary); flex-shrink: 0; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--color-primary); color: var(--color-text-inverse);
+  font-size: var(--text-sm); font-weight: 700; letter-spacing: -0.01em;
+  padding: var(--space-3) var(--space-8); border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md); transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+}
+.btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.btn-primary:active { transform: translateY(0); }
+
+/* Tracks preview */
+.tracks-section { padding: var(--space-8) 0 var(--space-12); }
+.tracks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: var(--space-3); margin-top: var(--space-6); }
+.track-chip {
+  display: flex; align-items: center; gap: var(--space-3);
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+}
+.track-chip:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.track-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.track-chip-text { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
+.track-chip-desc { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+
+/* Quiz wrapper */
+#quiz-app { display: none; }
+#quiz-app.active { display: block; }
+.quiz-section { padding: var(--space-8) 0 var(--space-16); }
+
+/* Progress */
+.progress-bar-wrap { margin-bottom: var(--space-8); }
+.progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3); }
+.progress-label { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-muted); }
+.progress-count { font-size: var(--text-sm); font-weight: 700; color: var(--color-primary); font-variant-numeric: tabular-nums; }
+.progress-track { height: 6px; background: var(--color-surface-offset); border-radius: var(--radius-full); overflow: hidden; }
+.progress-fill { height: 100%; background: var(--color-primary); border-radius: var(--radius-full); transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* Question card */
+.question-card {
+  background: var(--color-surface-2); border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl); padding: clamp(var(--space-6), 4vw, var(--space-10));
+  box-shadow: var(--shadow-md);
+  animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.question-num { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--color-primary); margin-bottom: var(--space-3); }
+.question-text { font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-text); margin-bottom: var(--space-6); line-height: 1.4; }
+.answers-list { display: flex; flex-direction: column; gap: var(--space-2); list-style: none; }
+.answer-btn {
+  width: 100%; text-align: left; display: flex; align-items: flex-start; gap: var(--space-3);
+  background: var(--color-bg); border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm); font-weight: 500; color: var(--color-text);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  line-height: 1.5;
+}
+.answer-btn:hover { background: var(--color-surface); border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-light); transform: translateX(3px); }
+.answer-btn:active { transform: translateX(0); }
+.answer-btn.selected { background: var(--color-primary-light); border-color: var(--color-primary); }
+.answer-letter {
+  min-width: 26px; height: 26px; border-radius: 50%;
+  background: var(--color-surface-offset); color: var(--color-text-muted);
+  font-size: var(--text-xs); font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  margin-top: 1px; transition: background var(--transition), color var(--transition);
+}
+.answer-btn.selected .answer-letter { background: var(--color-primary); color: var(--color-text-inverse); }
+
+/* Result */
+#result-screen { display: none; }
+#result-screen.active { display: block; }
+.result-section { padding: var(--space-8) 0 var(--space-20); }
+.result-hero {
+  text-align: center; padding: clamp(var(--space-8), 5vw, var(--space-12)) var(--space-6);
+  border-radius: var(--radius-xl); margin-bottom: var(--space-8);
+  position: relative; overflow: hidden;
+}
+.result-icon { font-size: 3.5rem; margin-bottom: var(--space-4); display: block; }
+.result-track-label {
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: var(--space-3); opacity: 0.7;
+}
+.result-title { font-family: var(--font-display); font-size: var(--text-xl); margin-bottom: var(--space-4); }
+.result-tagline { font-size: var(--text-base); opacity: 0.8; max-width: 46ch; margin-inline: auto; line-height: 1.7; }
+.result-detail {
+  background: var(--color-surface-2); border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl); padding: clamp(var(--space-5), 3vw, var(--space-8));
+  margin-bottom: var(--space-6); box-shadow: var(--shadow-sm);
+}
+.result-section-title { font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+.result-desc { font-size: var(--text-base); color: var(--color-text); line-height: 1.75; margin-bottom: var(--space-5); }
+.skills-list, .jobs-list { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.skill-tag, .job-tag {
+  font-size: var(--text-xs); font-weight: 600; padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full); border: 1px solid var(--color-border);
+  background: var(--color-surface-offset); color: var(--color-text-muted);
+}
+
+/* Score bars */
+.score-bars { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-4); }
+.score-row { display: flex; align-items: center; gap: var(--space-3); }
+.score-track-name { font-size: var(--text-xs); font-weight: 600; min-width: 200px; color: var(--color-text-muted); }
+.score-bar-wrap { flex: 1; height: 8px; background: var(--color-surface-offset); border-radius: var(--radius-full); overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.score-val { font-size: var(--text-xs); font-weight: 700; min-width: 28px; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Action buttons */
+.result-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; justify-content: center; margin-top: var(--space-6); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--color-surface-2); color: var(--color-text);
+  font-size: var(--text-sm); font-weight: 600;
+  padding: var(--space-3) var(--space-6); border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-border); box-shadow: var(--shadow-sm);
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  text-decoration: none; cursor: pointer;
+}
+.btn-secondary:hover { background: var(--color-surface-offset); border-color: var(--color-text-faint); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .score-track-name { min-width: 120px; font-size: 11px; }
+  .hero-meta { gap: var(--space-4); }
+  .result-actions { flex-direction: column; align-items: stretch; }
+  .result-actions > * { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container--wide header-inner">
+    <a class="logo" href="#" onclick="showStart()">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.9"/>
+        <rect x="16" y="2" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.5"/>
+        <rect x="2" y="16" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.5"/>
+        <rect x="16" y="16" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.2"/>
+      </svg>
+      Твой трек в госслужбе
+    </a>
+    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Start screen -->
+<div id="start-screen">
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Тест-навигатор
+      </div>
+      <h1>Какое направление<br>госслужбы тебе&nbsp;подходит?</h1>
+      <p>12 ситуационных вопросов — и ты узнаешь, где твои сильные стороны раскроются лучше всего. Без правильных и неправильных ответов.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          3–5 минут
+        </span>
+        <span class="hero-meta-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          12 вопросов
+        </span>
+        <span class="hero-meta-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          6 направлений
+        </span>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">
+        Начать тест
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="tracks-section">
+    <div class="container">
+      <p style="font-size:var(--text-sm);font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--color-text-muted);margin-bottom:var(--space-2);">Шесть треков</p>
+      <div class="tracks-grid">
+        <div class="track-chip"><div class="track-dot" style="background:var(--color-accent-А)"></div><div><div class="track-chip-text">📊 Аналитика и стратегическое планирование</div><div class="track-chip-desc">Данные, прогнозы, управленческие решения</div></div></div>
+        <div class="track-chip"><div class="track-dot" style="background:var(--color-accent-Б)"></div><div><div class="track-chip-text">🤝 Работа с гражданами и социальная политика</div><div class="track-chip-desc">Люди, сервис, социальная защита</div></div></div>
+        <div class="track-chip"><div class="track-dot" style="background:var(--color-accent-В)"></div><div><div class="track-chip-text">💻 Цифровая трансформация и IT</div><div class="track-chip-desc">Цифровизация, автоматизация, GovTech</div></div></div>
+        <div class="track-chip"><div class="track-dot" style="background:var(--color-accent-Г)"></div><div><div class="track-chip-text">⚖️ Правовое обеспечение и нормотворчество</div><div class="track-chip-desc">Законы, НПА, юридическая точность</div></div></div>
+        <div class="track-chip"><div class="track-dot" style="background:var(--color-accent-Д)"></div><div><div class="track-chip-text">🎯 Управление проектами и взаимодействие</div><div class="track-chip-desc">Нацпроекты, координация, результат</div></div></div>
+        <div class="track-chip"><div class="track-dot" style="background:var(--color-accent-Е)"></div><div><div class="track-chip-text">💰 Финансы и бюджетная политика</div><div class="track-chip-desc">Бюджет, казначейство, госзакупки</div></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Quiz -->
+<div id="quiz-app">
+  <section class="quiz-section">
+    <div class="container">
+      <div class="progress-bar-wrap">
+        <div class="progress-info">
+          <span class="progress-label">Вопрос</span>
+          <span class="progress-count" id="progress-count">1 / 12</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:8.3%"></div></div>
+      </div>
+      <div id="question-card" class="question-card"></div>
+    </div>
+  </section>
+</div>
+
+<!-- Result -->
+<div id="result-screen">
+  <section class="result-section">
+    <div class="container" id="result-container"></div>
+  </section>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Вам поручили подготовить предложения по улучшению работы ведомства. С чего вы начнёте?",
+    answers: [
+      { text: "Соберу статистику и проанализирую показатели за последние годы", track: "А" },
+      { text: "Поговорю с людьми — коллегами и гражданами, которые пользуются услугами", track: "Б" },
+      { text: "Посмотрю, какие цифровые решения уже есть на рынке и что можно внедрить", track: "В" },
+      { text: "Изучу нормативную базу — возможно, проблема в регламентах", track: "Г" },
+      { text: "Составлю план: этапы, сроки, ответственные, ресурсы", track: "Д" },
+      { text: "Проверю бюджет — сколько средств выделено и как они расходуются", track: "Е" }
+    ]
+  },
+  {
+    q: "Какой тип задач вызывает у вас наибольший азарт?",
+    answers: [
+      { text: "Найти неочевидную закономерность в массиве данных", track: "А" },
+      { text: "Помочь человеку решить его конкретную проблему", track: "Б" },
+      { text: "Автоматизировать рутинный процесс и увидеть, как всё ускоряется", track: "В" },
+      { text: "Разобрать сложную правовую коллизию и найти элегантное решение", track: "Г" },
+      { text: "Довести сложный проект с множеством участников до результата", track: "Д" },
+      { text: "Оптимизировать расходы и показать экономию", track: "Е" }
+    ]
+  },
+  {
+    q: "Что вас больше всего раздражает в работе государственных органов?",
+    answers: [
+      { text: "Решения принимаются «на глазок», без опоры на данные", track: "А" },
+      { text: "Чиновники забывают, что работают для людей, а не для отчётов", track: "Б" },
+      { text: "Бумажные процессы, которые давно можно было бы перевести в цифру", track: "В" },
+      { text: "Противоречия в законах и размытые регламенты", track: "Г" },
+      { text: "Отсутствие координации: каждый работает сам по себе", track: "Д" },
+      { text: "Неэффективное расходование бюджетных средств", track: "Е" }
+    ]
+  },
+  {
+    q: "Вам предложили выбрать тему для выступления на форуме. Что выберете?",
+    answers: [
+      { text: "«Как данные меняют государственное управление: кейсы и метрики»", track: "А" },
+      { text: "«Человекоцентричность в госуслугах: от лозунга к практике»", track: "Б" },
+      { text: "«Искусственный интеллект на госслужбе: возможности и риски»", track: "В" },
+      { text: "«Регуляторная гильотина 2.0: что дальше?»", track: "Г" },
+      { text: "«Как запустить нацпроект без хаоса: уроки проектного управления»", track: "Д" },
+      { text: "«Бюджет результатов: переход от освоения к эффективности»", track: "Е" }
+    ]
+  },
+  {
+    q: "Какой инструмент вы бы первым освоили на новом месте работы?",
+    answers: [
+      { text: "BI-систему (Power BI, Tableau) или продвинутый Excel", track: "А" },
+      { text: "CRM-систему для работы с обращениями граждан", track: "Б" },
+      { text: "Платформу для прототипирования или low-code разработки", track: "В" },
+      { text: "КонсультантПлюс / Гарант и базы судебной практики", track: "Г" },
+      { text: "Систему управления проектами (Jira, MS Project, Битрикс24)", track: "Д" },
+      { text: "СУФД, «Электронный бюджет» или систему госзакупок", track: "Е" }
+    ]
+  },
+  {
+    q: "Ваш начальник просит подготовить служебную записку. О чём вам было бы приятнее всего писать?",
+    answers: [
+      { text: "Аналитический обзор с графиками и прогнозными сценариями", track: "А" },
+      { text: "Предложения по улучшению обслуживания населения на основе обратной связи", track: "Б" },
+      { text: "Обоснование внедрения новой информационной системы", track: "В" },
+      { text: "Правовое заключение по спорному вопросу", track: "Г" },
+      { text: "Отчёт о реализации проекта с анализом отклонений от плана", track: "Д" },
+      { text: "Финансово-экономическое обоснование нового мероприятия", track: "Е" }
+    ]
+  },
+  {
+    q: "Вы на совещании. Какую роль вы чаще всего занимаете?",
+    answers: [
+      { text: "Привожу факты и цифры, когда обсуждение уходит в эмоции", track: "А" },
+      { text: "Напоминаю, как решение повлияет на конкретных людей", track: "Б" },
+      { text: "Предлагаю технологическое решение проблемы", track: "В" },
+      { text: "Уточняю правовые рамки и возможные юридические последствия", track: "Г" },
+      { text: "Структурирую обсуждение и фиксирую договорённости", track: "Д" },
+      { text: "Считаю, сколько это будет стоить и откуда взять деньги", track: "Е" }
+    ]
+  },
+  {
+    q: "Какая книга или подкаст привлекла бы ваше внимание?",
+    answers: [
+      { text: "«Думай медленно… решай быстро» Д. Канемана", track: "А" },
+      { text: "Подкаст о социальных проектах и волонтёрстве", track: "Б" },
+      { text: "«Цифровое государство» или подкаст о GovTech", track: "В" },
+      { text: "Комментарий к новому федеральному закону", track: "Г" },
+      { text: "«Deadline» Т. Демарко или книга по Agile в госсекторе", track: "Д" },
+      { text: "«Государственные финансы» или материалы Счётной палаты", track: "Е" }
+    ]
+  },
+  {
+    q: "Какое достижение на работе принесло бы вам наибольшее удовлетворение?",
+    answers: [
+      { text: "Мой анализ лёг в основу стратегического решения руководства", track: "А" },
+      { text: "Благодарность от гражданина, которому я реально помог", track: "Б" },
+      { text: "Сервис, который я внедрил, ежедневно экономит сотрудникам 2 часа", track: "В" },
+      { text: "Подготовленный мной нормативный акт прошёл без замечаний", track: "Г" },
+      { text: "Проект завершён в срок, в бюджете и с нужным результатом", track: "Д" },
+      { text: "Удалось сэкономить 15% бюджета без потери качества", track: "Е" }
+    ]
+  },
+  {
+    q: "Представьте: вы можете запустить один пилотный проект в своём регионе. Какой?",
+    answers: [
+      { text: "Дашборд с ключевыми показателями региона в реальном времени", track: "А" },
+      { text: "Единое окно обратной связи от жителей с системой контроля исполнения", track: "Б" },
+      { text: "Суперсервис, объединяющий 10 госуслуг в один цифровой процесс", track: "В" },
+      { text: "Систему автоматической проверки НПА на противоречия", track: "Г" },
+      { text: "Межведомственный штаб по реализации приоритетных проектов", track: "Д" },
+      { text: "Инициативное бюджетирование — жители сами решают, на что потратить часть бюджета", track: "Е" }
+    ]
+  },
+  {
+    q: "Какое качество вы больше всего цените в коллегах?",
+    answers: [
+      { text: "Объективность и умение аргументировать цифрами", track: "А" },
+      { text: "Неравнодушие и готовность вникнуть в проблему человека", track: "Б" },
+      { text: "Готовность пробовать новое и не бояться технологий", track: "В" },
+      { text: "Скрупулёзность и внимание к деталям", track: "Г" },
+      { text: "Надёжность и умение держать слово", track: "Д" },
+      { text: "Ответственность в обращении с ресурсами", track: "Е" }
+    ]
+  },
+  {
+    q: "В чём, на ваш взгляд, ключевая миссия государственного служащего?",
+    answers: [
+      { text: "Обеспечивать принятие обоснованных, взвешенных решений", track: "А" },
+      { text: "Быть на стороне гражданина и защищать его интересы", track: "Б" },
+      { text: "Делать государство удобным и современным", track: "В" },
+      { text: "Обеспечивать верховенство закона и правовой порядок", track: "Г" },
+      { text: "Доводить до результата программы, которые меняют жизнь", track: "Д" },
+      { text: "Ответственно распоряжаться общественными ресурсами", track: "Е" }
+    ]
+  }
+];
+
+const tracks = {
+  "А": {
+    icon: "📊",
+    name: "Аналитика и стратегическое планирование",
+    tagline: "Вы — прирождённый аналитик. Ваша сила — в умении видеть закономерности, работать с данными и превращать цифры в управленческие решения.",
+    desc: "Вам подходят подразделения, связанные со стратегическим планированием, мониторингом программ, статистикой и прогнозированием. Вы умеете превращать сложные данные в ясные выводы и рекомендации для принятия решений.",
+    jobs: ["Аналитик департамента стратегического развития", "Специалист по мониторингу нацпроектов", "Эксперт по оценке регулирующего воздействия", "Сотрудник контрольно-счётной палаты"],
+    skills: ["Excel / BI-системы", "Статистический анализ", "Аналитические записки", "Моделирование сценариев", "Работа с данными"]
+  },
+  "Б": {
+    icon: "🤝",
+    name: "Работа с гражданами и социальная политика",
+    tagline: "Вы умеете слушать и слышать людей. Ваша мотивация — реальная помощь конкретным людям.",
+    desc: "Вам подходят направления, где результат работы ощущается напрямую: социальная защита, работа с обращениями, организация мероприятий для населения. Вы цените живой контакт и видите за каждым обращением реального человека.",
+    jobs: ["Специалист МФЦ", "Сотрудник управления социальной политики", "Руководитель проектного офиса по работе с НКО", "Специалист по работе с обращениями граждан"],
+    skills: ["Коммуникация", "Эмпатия", "Медиация", "Организация мероприятий", "Социальное законодательство"]
+  },
+  "В": {
+    icon: "💻",
+    name: "Цифровая трансформация и IT",
+    tagline: "Вы мыслите системами и процессами. Технологии для вас — инструмент кардинального улучшения работы государства.",
+    desc: "Вам подходят подразделения, отвечающие за цифровизацию, внедрение информационных систем и автоматизацию госуслуг. Вы видите потенциал технологий там, где другие видят лишь рутину, и умеете переводить бизнес-задачи на язык IT.",
+    jobs: ["Специалист по цифровой трансформации", "Руководитель внедрения ГИС", "Аналитик по автоматизации процессов", "Менеджер IT-проектов в органах власти"],
+    skills: ["IT-архитектура", "Управление продуктом", "Работа с ТЗ", "Базовое программирование", "UX-мышление"]
+  },
+  "Г": {
+    icon: "⚖️",
+    name: "Правовое обеспечение и нормотворчество",
+    tagline: "Вы цените чёткость, порядок и юридическую точность. Ваш талант — структурирование через нормы и регламенты.",
+    desc: "Вам подходит работа с законопроектами, правовой экспертизой и нормативным регулированием. Вы умеете находить правовые пробелы и противоречия, создавать чёткие и работающие нормы, которые упорядочивают жизнь государства.",
+    jobs: ["Юрист правового управления", "Специалист по антикоррупционной экспертизе", "Эксперт по нормотворчеству", "Сотрудник юридического отдела администрации"],
+    skills: ["Юридический анализ", "Подготовка НПА", "Правовая экспертиза", "КонсультантПлюс / Гарант", "Административное право"]
+  },
+  "Д": {
+    icon: "🎯",
+    name: "Управление проектами и межведомственное взаимодействие",
+    tagline: "Вы — организатор и координатор. Ваша сила — объединять разных людей и ведомства для достижения общей цели.",
+    desc: "Вам подходят проектные офисы, координационные центры и должности, связанные с реализацией комплексных программ. Вы умеете держать в голове сотни деталей, предвидеть риски и вести команду к результату через любые препятствия.",
+    jobs: ["Руководитель проектного офиса", "Координатор нацпроекта", "Специалист по межведомственному взаимодействию", "Менеджер государственных программ"],
+    skills: ["PMBOK / Agile", "Фасилитация", "Планирование", "Управление рисками", "Работа со стейкхолдерами"]
+  },
+  "Е": {
+    icon: "💰",
+    name: "Финансы и бюджетная политика",
+    tagline: "Вы любите точность и ответственность. Бюджет для вас — реальный инструмент государственной политики.",
+    desc: "Вам подходят финансовые управления, казначейства и подразделения, отвечающие за формирование и исполнение бюджетов. Вы умеете видеть в цифрах смысл и приоритеты, обеспечивать финансовую дисциплину и находить резервы там, где другие не замечают.",
+    jobs: ["Специалист финансового управления", "Сотрудник казначейства", "Бюджетный аналитик", "Специалист по госзакупкам (44-ФЗ, 223-ФЗ)"],
+    skills: ["Бюджетное планирование", "Финансовый анализ", "СУФД / Электронный бюджет", "БК РФ", "Закупочная деятельность"]
+  }
+};
+
+const trackOrder = ["А","Б","В","Г","Д","Е"];
+const trackColors = { А: "--color-accent-А", Б: "--color-accent-Б", В: "--color-accent-В", Г: "--color-accent-Г", Д: "--color-accent-Д", Е: "--color-accent-Е" };
+const trackLights = { А: "--color-light-А", Б: "--color-light-Б", В: "--color-light-В", Г: "--color-light-Г", Д: "--color-light-Д", Е: "--color-light-Е" };
+
+let currentQ = 0;
+let scores = { А: 0, Б: 0, В: 0, Г: 0, Д: 0, Е: 0 };
+
+function showStart() {
+  document.getElementById('start-screen').style.display = '';
+  document.getElementById('quiz-app').classList.remove('active');
+  document.getElementById('result-screen').classList.remove('active');
+  currentQ = 0;
+  scores = { А: 0, Б: 0, В: 0, Г: 0, Д: 0, Е: 0 };
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-app').classList.add('active');
+  document.getElementById('result-screen').classList.remove('active');
+  currentQ = 0;
+  scores = { А: 0, Б: 0, В: 0, Г: 0, Д: 0, Е: 0 };
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+  const pct = ((currentQ + 1) / total * 100).toFixed(1);
+  document.getElementById('progress-count').textContent = `${currentQ + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const letters = ['А','Б','В','Г','Д','Е'];
+  const answersHTML = q.answers.map((a, i) => `
+    <li>
+      <button class="answer-btn" onclick="selectAnswer('${a.track}', this)">
+        <span class="answer-letter">${letters[i]}</span>
+        <span>${a.text}</span>
+      </button>
+    </li>`).join('');
+
+  document.getElementById('question-card').innerHTML = `
+    <div class="question-num">Вопрос ${currentQ + 1}</div>
+    <div class="question-text">${q.q}</div>
+    <ul class="answers-list" role="list">${answersHTML}</ul>
+  `;
+}
+
+function selectAnswer(track, btn) {
+  // Disable all buttons
+  const allBtns = btn.closest('.answers-list').querySelectorAll('.answer-btn');
+  allBtns.forEach(b => { b.disabled = true; b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  scores[track]++;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+    window.scrollTo({ top: 80, behavior: 'smooth' });
+  }, 380);
+}
+
+function showResult() {
+  document.getElementById('quiz-app').classList.remove('active');
+  document.getElementById('result-screen').classList.add('active');
+
+  const maxScore = Math.max(...Object.values(scores));
+  const winners = trackOrder.filter(t => scores[t] === maxScore);
+  const isTie = winners.length > 1;
+  const primary = winners[0];
+  const track = tracks[primary];
+  const color = `var(${trackColors[primary]})`;
+  const light = `var(${trackLights[primary]})`;
+
+  // Score bars
+  const barsHTML = trackOrder.map(t => {
+    const pct = (scores[t] / questions.length * 100).toFixed(0);
+    const isWinner = winners.includes(t);
+    return `
+      <div class="score-row">
+        <span class="score-track-name">${tracks[t].icon} ${tracks[t].name.split(' ').slice(0,3).join(' ')}…</span>
+        <div class="score-bar-wrap">
+          <div class="score-bar-fill" style="width:0%;background:var(${trackColors[t]});opacity:${isWinner?1:0.45}" data-pct="${pct}"></div>
+        </div>
+        <span class="score-val" style="color:var(${trackColors[t]})">${scores[t]}</span>
+      </div>`;
+  }).join('');
+
+  const tieNote = isTie ? `<p style="margin-top:var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);text-align:center;"><strong>У вас смежный профиль</strong> — результаты совпали для нескольких направлений.</p>` : '';
+
+  const jobsHTML = track.jobs.map(j => `<span class="job-tag">${j}</span>`).join('');
+  const skillsHTML = track.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+
+  document.getElementById('result-container').innerHTML = `
+    <div class="result-hero" style="background:${light};border:1.5px solid ${color}20;">
+      <span class="result-icon">${track.icon}</span>
+      <div class="result-track-label" style="color:${color}">Ваш трек</div>
+      <h2 class="result-title">${track.name}</h2>
+      <p class="result-tagline">${track.tagline}</p>
+      ${tieNote}
+    </div>
+
+    <div class="result-detail">
+      <div class="result-section-title">О вас</div>
+      <p class="result-desc">${track.desc}</p>
+      <div class="result-section-title">Примеры должностей</div>
+      <div class="jobs-list" style="margin-bottom:var(--space-5)">${jobsHTML}</div>
+      <div class="result-section-title">Ключевые компетенции</div>
+      <div class="skills-list">${skillsHTML}</div>
+    </div>
+
+    <div class="result-detail">
+      <div class="result-section-title">Ваши баллы по всем направлениям</div>
+      <div class="score-bars">${barsHTML}</div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-secondary" onclick="startQuiz()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+        Пройти заново
+      </button>
+      <button class="btn-secondary" onclick="showAllTracks()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Все направления
+      </button>
+    </div>
+    <div id="all-tracks-panel" style="display:none;margin-top:var(--space-6)"></div>
+  `;
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 200);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showAllTracks() {
+  const panel = document.getElementById('all-tracks-panel');
+  if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+
+  const html = trackOrder.map(t => {
+    const tr = tracks[t];
+    const color = `var(${trackColors[t]})`;
+    const light = `var(${trackLights[t]})`;
+    return `
+      <div style="background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-3);">
+        <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2)">
+          <span style="font-size:1.8rem">${tr.icon}</span>
+          <div>
+            <div style="font-weight:700;font-size:var(--text-sm);color:${color}">${tr.name}</div>
+            <div style="font-size:var(--text-xs);color:var(--color-text-muted)">Баллов: ${scores[t]} из 12</div>
+          </div>
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.65">${tr.tagline}</p>
+      </div>`;
+  }).join('');
+
+  panel.innerHTML = `<h3 style="font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-5)">Все шесть направлений</h3>${html}`;
+  panel.style.display = 'block';
+}
+
+// Theme toggle
+(function(){
+  const t = document.querySelector('[data-theme-toggle]');
+  const r = document.documentElement;
+  let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', d);
+  function updateIcon() {
+    if (!t) return;
+    t.innerHTML = d === 'dark'
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    t.setAttribute('aria-label', 'Переключить на ' + (d === 'dark' ? 'светлую' : 'тёмную') + ' тему');
+  }
+  updateIcon();
+  if (t) t.addEventListener('click', () => { d = d === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', d); updateIcon(); });
+})();
+</script>
+</body>
+</html>
