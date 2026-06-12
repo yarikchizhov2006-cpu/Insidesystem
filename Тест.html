@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Какая сфера госслужбы тебе подходит?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#00274C;
+  --bg2:#001a35;
+  --text:#ECF6FF;
+  --text-dim:rgba(236,246,255,0.55);
+  --accent:#00BFFF;
+  --accent2:#7B61FF;
+  --accent3:#00E5A0;
+  --glass:rgba(236,246,255,0.06);
+  --glass2:rgba(236,246,255,0.1);
+  --glass3:rgba(236,246,255,0.15);
+  --border:rgba(236,246,255,0.1);
+  --radius:16px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* === AMBIENT BLOBS === */
+.ambient{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.15;animation:float 20s ease-in-out infinite}
+.blob-1{width:500px;height:500px;background:var(--accent);top:-10%;left:-5%;animation-delay:0s}
+.blob-2{width:400px;height:400px;background:var(--accent2);bottom:-10%;right:-5%;animation-delay:-7s}
+.blob-3{width:350px;height:350px;background:var(--accent3);top:50%;left:60%;animation-delay:-14s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+
+/* === LAYOUT === */
+.container{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:24px 20px 60px}
+
+/* === START SCREEN === */
+.screen{display:none;animation:fadeUp .5s ease}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{text-align:center;padding:15vh 0 40px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:100px;
+  background:var(--glass2);border:1px solid var(--border);
+  font-size:13px;font-weight:600;letter-spacing:.03em;color:var(--accent);
+  margin-bottom:28px;
+}
+.hero h1{
+  font-size:clamp(32px,7vw,52px);font-weight:900;
+  line-height:1.1;letter-spacing:-.02em;
+  margin-bottom:20px;
+}
+.hero h1 .gradient{
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero p{font-size:17px;color:var(--text-dim);max-width:480px;margin:0 auto 40px;line-height:1.7}
+.hero-meta{display:flex;justify-content:center;gap:32px;margin-bottom:44px}
+.hero-meta span{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);font-weight:500}
+.hero-meta svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2}
+
+.btn-start{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 48px;border:none;border-radius:100px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-family:inherit;font-size:17px;font-weight:700;
+  cursor:pointer;transition:all .3s ease;
+  box-shadow:0 8px 32px rgba(0,191,255,.25);
+  letter-spacing:.01em;
+}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,191,255,.35)}
+.btn-start:active{transform:translateY(0)}
+.btn-start svg{width:20px;height:20px;fill:currentColor;transition:transform .3s}
+.btn-start:hover svg{transform:translateX(4px)}
+
+/* === PROGRESS === */
+.progress-wrap{
+  position:sticky;top:0;z-index:10;
+  padding:16px 0 20px;
+  background:linear-gradient(180deg,var(--bg) 60%,transparent);
+}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.progress-label{font-size:13px;font-weight:600;color:var(--text-dim);letter-spacing:.04em;text-transform:uppercase}
+.progress-count{font-size:14px;font-weight:700;color:var(--accent)}
+.progress-bar{height:6px;border-radius:100px;background:var(--glass2);overflow:hidden}
+.progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+/* === QUESTION === */
+.question-card{animation:fadeUp .45s ease}
+.question-number{
+  display:inline-block;padding:6px 14px;border-radius:100px;
+  background:var(--glass2);font-size:12px;font-weight:700;
+  color:var(--accent);letter-spacing:.06em;margin-bottom:16px;
+}
+.question-text{font-size:clamp(20px,4.5vw,26px);font-weight:700;line-height:1.35;margin-bottom:28px;letter-spacing:-.01em}
+
+.options{display:flex;flex-direction:column;gap:10px}
+.option{
+  position:relative;
+  padding:18px 22px;border-radius:var(--radius);
+  background:var(--glass);
+  border:1.5px solid var(--border);
+  cursor:pointer;transition:all .25s ease;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.option:hover{background:var(--glass2);border-color:rgba(236,246,255,.2);transform:translateX(4px)}
+.option:active{transform:translateX(2px)}
+.option.selected{
+  background:linear-gradient(135deg,rgba(0,191,255,.12),rgba(123,97,255,.12));
+  border-color:var(--accent);
+}
+.option-marker{
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--text-dim);
+  transition:all .25s ease;margin-top:1px;
+}
+.option.selected .option-marker{
+  border-color:var(--accent);background:var(--accent);color:var(--bg);
+}
+.option-text{font-size:15px;font-weight:500;line-height:1.5;color:var(--text);padding-top:3px}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:32px;gap:12px}
+.btn-nav{
+  padding:14px 28px;border-radius:100px;
+  font-family:inherit;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .25s ease;
+  display:flex;align-items:center;gap:8px;
+}
+.btn-back{
+  background:transparent;border:1.5px solid var(--border);color:var(--text-dim);
+}
+.btn-back:hover{border-color:rgba(236,246,255,.3);color:var(--text)}
+.btn-next{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;color:#fff;
+  box-shadow:0 4px 20px rgba(0,191,255,.2);
+  margin-left:auto;
+}
+.btn-next:hover{box-shadow:0 6px 28px rgba(0,191,255,.3);transform:translateY(-1px)}
+.btn-next:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-nav svg{width:16px;height:16px;fill:currentColor}
+
+/* === RESULT === */
+.result{text-align:center;padding-top:8vh}
+.result-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 20px;border-radius:100px;
+  background:linear-gradient(135deg,rgba(0,191,255,.15),rgba(123,97,255,.15));
+  border:1px solid rgba(0,191,255,.3);
+  font-size:13px;font-weight:700;color:var(--accent);
+  letter-spacing:.04em;margin-bottom:24px;
+}
+.result-icon{font-size:64px;margin-bottom:20px;display:block;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+.result h2{
+  font-size:clamp(28px,6vw,40px);font-weight:900;line-height:1.15;
+  margin-bottom:16px;letter-spacing:-.02em;
+}
+.result h2 .gradient{
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.result-desc{font-size:16px;color:var(--text-dim);line-height:1.7;max-width:560px;margin:0 auto 36px}
+
+.result-cards{display:grid;gap:12px;text-align:left;margin-bottom:40px}
+.result-card{
+  padding:22px 24px;border-radius:var(--radius);
+  background:var(--glass);border:1px solid var(--border);
+}
+.result-card-label{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.result-card-text{font-size:14px;line-height:1.65;color:rgba(236,246,255,.8)}
+
+/* Score bars */
+.scores{margin-bottom:40px;text-align:left}
+.scores-title{font-size:13px;font-weight:700;color:var(--text-dim);letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px;text-align:center}
+.score-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.score-label{font-size:12px;font-weight:600;color:var(--text-dim);min-width:28px;text-align:right;flex-shrink:0}
+.score-track{flex:1;height:8px;border-radius:100px;background:var(--glass2);overflow:hidden}
+.score-fill{height:100%;border-radius:100px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.score-val{font-size:12px;font-weight:700;color:var(--text-dim);min-width:20px;flex-shrink:0}
+
+.btn-group{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.btn-restart{
+  padding:16px 36px;border-radius:100px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;color:#fff;font-family:inherit;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .25s ease;
+  box-shadow:0 6px 24px rgba(0,191,255,.2);
+}
+.btn-restart:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,191,255,.3)}
+.btn-share{
+  padding:16px 36px;border-radius:100px;
+  background:transparent;border:1.5px solid var(--border);
+  color:var(--text);font-family:inherit;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .25s ease;
+}
+.btn-share:hover{border-color:rgba(236,246,255,.3);background:var(--glass)}
+
+/* === TOAST === */
+.toast{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);
+  padding:14px 28px;border-radius:100px;
+  background:var(--accent);color:var(--bg);
+  font-size:14px;font-weight:700;
+  opacity:0;transition:all .4s ease;z-index:100;
+  pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* === MOBILE === */
+@media(max-width:540px){
+  .container{padding:16px 16px 48px}
+  .hero{padding:10vh 0 32px}
+  .hero-meta{gap:20px}
+  .option{padding:14px 16px;gap:12px}
+  .btn-start{padding:16px 36px;font-size:16px}
+  .nav-row{margin-top:24px}
+  .result-card{padding:18px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<div class="container">
+
+  <!-- START -->
+  <div id="screen-start" class="screen active">
+    <div class="hero">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Профориентационный тест
+      </div>
+      <h1>Какая сфера<br><span class="gradient">госслужбы</span><br>тебе подходит?</h1>
+      <p>12 ситуационных вопросов — и ты узнаешь, в каком направлении государственного управления твои сильные стороны раскроются лучше всего</p>
+      <div class="hero-meta">
+        <span>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          3–5 минут
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          12 вопросов
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          6 направлений
+        </span>
+      </div>
+      <button class="btn-start" onclick="startQuiz()">
+        Начать тест
+        <svg viewBox="0 0 20 20"><path d="M6 4l8 6-8 6V4z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс</span>
+        <span class="progress-count" id="progress-count">1 / 12</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:8.33%"></div></div>
+    </div>
+    <div id="question-container"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="screen-result" class="screen"></div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const questions=[
+{q:"Вам поручили подготовить предложения по улучшению работы ведомства. С чего вы начнёте?",o:[
+{t:"Соберу статистику и проанализирую показатели за последние годы",k:"A"},
+{t:"Поговорю с людьми — коллегами и гражданами, которые пользуются услугами",k:"B"},
+{t:"Посмотрю, какие цифровые решения уже есть на рынке и что можно внедрить",k:"C"},
+{t:"Изучу нормативную базу — возможно, проблема в регламентах",k:"D"},
+{t:"Составлю план: этапы, сроки, ответственные, ресурсы",k:"E"},
+{t:"Проверю бюджет — сколько средств выделено и как они расходуются",k:"F"}
+]},
+{q:"Какой тип задач вызывает у вас наибольший азарт?",o:[
+{t:"Найти неочевидную закономерность в массиве данных",k:"A"},
+{t:"Помочь человеку решить его конкретную проблему",k:"B"},
+{t:"Автоматизировать рутинный процесс и увидеть, как всё ускоряется",k:"C"},
+{t:"Разобрать сложную правовую коллизию и найти элегантное решение",k:"D"},
+{t:"Довести сложный проект с множеством участников до результата",k:"E"},
+{t:"Оптимизировать расходы и показать экономию",k:"F"}
+]},
+{q:"Что вас больше всего раздражает в работе государственных органов?",o:[
+{t:"Решения принимаются «на глазок», без опоры на данные",k:"A"},
+{t:"Чиновники забывают, что работают для людей, а не для отчётов",k:"B"},
+{t:"Бумажные процессы, которые давно можно было бы перевести в цифру",k:"C"},
+{t:"Противоречия в законах и размытые регламенты",k:"D"},
+{t:"Отсутствие координации: каждый работает сам по себе",k:"E"},
+{t:"Неэффективное расходование бюджетных средств",k:"F"}
+]},
+{q:"Вам предложили выбрать тему для выступления на форуме. Что выберете?",o:[
+{t:"«Как данные меняют государственное управление: кейсы и метрики»",k:"A"},
+{t:"«Человекоцентричность в госуслугах: от лозунга к практике»",k:"B"},
+{t:"«Искусственный интеллект на госслужбе: возможности и риски»",k:"C"},
+{t:"«Регуляторная гильотина 2.0: что дальше?»",k:"D"},
+{t:"«Как запустить нацпроект без хаоса: уроки проектного управления»",k:"E"},
+{t:"«Бюджет результатов: переход от освоения к эффективности»",k:"F"}
+]},
+{q:"Какой инструмент вы бы первым освоили на новом месте работы?",o:[
+{t:"BI-систему (Power BI, Tableau) или продвинутый Excel",k:"A"},
+{t:"CRM-систему для работы с обращениями граждан",k:"B"},
+{t:"Платформу для прототипирования или low-code разработки",k:"C"},
+{t:"КонсультантПлюс / Гарант и базы судебной практики",k:"D"},
+{t:"Систему управления проектами (Jira, MS Project, Битрикс24)",k:"E"},
+{t:"СУФД, «Электронный бюджет» или систему госзакупок",k:"F"}
+]},
+{q:"Ваш начальник просит подготовить служебную записку. О чём вам было бы приятнее всего писать?",o:[
+{t:"Аналитический обзор с графиками и прогнозными сценариями",k:"A"},
+{t:"Предложения по улучшению обслуживания населения на основе обратной связи",k:"B"},
+{t:"Обоснование внедрения новой информационной системы",k:"C"},
+{t:"Правовое заключение по спорному вопросу",k:"D"},
+{t:"Отчёт о реализации проекта с анализом отклонений от плана",k:"E"},
+{t:"Финансово-экономическое обоснование нового мероприятия",k:"F"}
+]},
+{q:"Вы на совещании. Какую роль вы чаще всего занимаете?",o:[
+{t:"Привожу факты и цифры, когда обсуждение уходит в эмоции",k:"A"},
+{t:"Напоминаю, как решение повлияет на конкретных людей",k:"B"},
+{t:"Предлагаю технологическое решение проблемы",k:"C"},
+{t:"Уточняю правовые рамки и возможные юридические последствия",k:"D"},
+{t:"Структурирую обсуждение и фиксирую договорённости",k:"E"},
+{t:"Считаю, сколько это будет стоить и откуда взять деньги",k:"F"}
+]},
+{q:"Какая книга или подкаст привлекла бы ваше внимание?",o:[
+{t:"«Думай медленно... решай быстро» Д. Канемана",k:"A"},
+{t:"Подкаст о социальных проектах и волонтёрстве",k:"B"},
+{t:"«Цифровое государство» или подкаст о GovTech",k:"C"},
+{t:"Комментарий к новому федеральному закону",k:"D"},
+{t:"«Deadline» Т. Демарко или книга по Agile в госсекторе",k:"E"},
+{t:"«Государственные финансы» или материалы Счётной палаты",k:"F"}
+]},
+{q:"Какое достижение на работе принесло бы вам наибольшее удовлетворение?",o:[
+{t:"Мой анализ лёг в основу стратегического решения руководства",k:"A"},
+{t:"Благодарность от гражданина, которому я реально помог",k:"B"},
+{t:"Сервис, который я внедрил, ежедневно экономит сотрудникам 2 часа",k:"C"},
+{t:"Подготовленный мной нормативный акт прошёл без замечаний",k:"D"},
+{t:"Проект завершён в срок, в бюджете и с нужным результатом",k:"E"},
+{t:"Удалось сэкономить 15% бюджета без потери качества",k:"F"}
+]},
+{q:"Представьте: вы можете запустить один пилотный проект в своём регионе. Какой?",o:[
+{t:"Дашборд с ключевыми показателями региона в реальном времени",k:"A"},
+{t:"Единое окно обратной связи от жителей с системой контроля исполнения",k:"B"},
+{t:"Суперсервис, объединяющий 10 госуслуг в один цифровой процесс",k:"C"},
+{t:"Систему автоматической проверки НПА на противоречия",k:"D"},
+{t:"Межведомственный штаб по реализации приоритетных проектов",k:"E"},
+{t:"Инициативное бюджетирование — жители сами решают, на что потратить часть бюджета",k:"F"}
+]},
+{q:"Какое качество вы больше всего цените в коллегах?",o:[
+{t:"Объективность и умение аргументировать цифрами",k:"A"},
+{t:"Неравнодушие и готовность вникнуть в проблему человека",k:"B"},
+{t:"Готовность пробовать новое и не бояться технологий",k:"C"},
+{t:"Скрупулёзность и внимание к деталям",k:"D"},
+{t:"Надёжность и умение держать слово",k:"E"},
+{t:"Ответственность в обращении с ресурсами",k:"F"}
+]},
+{q:"В чём, на ваш взгляд, ключевая миссия государственного служащего?",o:[
+{t:"Обеспечивать принятие обоснованных, взвешенных решений",k:"A"},
+{t:"Быть на стороне гражданина и защищать его интересы",k:"B"},
+{t:"Делать государство удобным и современным",k:"C"},
+{t:"Обеспечивать верховенство закона и правовой порядок",k:"D"},
+{t:"Доводить до результата программы, которые меняют жизнь",k:"E"},
+{t:"Ответственно распоряжаться общественными ресурсами",k:"F"}
+]}
+];
+
+const tracks={
+A:{name:"Аналитика и стратегическое планирование",icon:"📊",color:"#00BFFF",
+desc:"Вы — прирождённый аналитик. Ваша сила — в умении видеть закономерности, работать с данными и превращать цифры в управленческие решения. Вам подходят подразделения, связанные со стратегическим планированием, мониторингом программ, статистикой и прогнозированием.",
+roles:"Аналитик департамента стратегического развития, специалист по мониторингу нацпроектов, эксперт по оценке регулирующего воздействия, сотрудник контрольно-счётной палаты",
+skills:"Работа с данными (Excel, BI-системы), статистический анализ, написание аналитических записок, моделирование сценариев"},
+B:{name:"Работа с гражданами и социальная политика",icon:"🤝",color:"#FF6B9D",
+desc:"Вы умеете слушать и слышать людей. Ваша мотивация — реальная помощь конкретным людям. Вам подходят направления, где результат работы ощущается напрямую: социальная защита, работа с обращениями, организация мероприятий для населения.",
+roles:"Специалист МФЦ, сотрудник управления социальной политики, руководитель проектного офиса по работе с НКО, специалист по работе с обращениями граждан",
+skills:"Коммуникация, эмпатия, медиация, организация мероприятий, знание социального законодательства"},
+C:{name:"Цифровая трансформация и IT",icon:"💻",color:"#7B61FF",
+desc:"Вы мыслите системами и процессами. Технологии для вас — не цель, а инструмент, который может кардинально улучшить работу государства. Вам подходят подразделения, отвечающие за цифровизацию, внедрение информационных систем и автоматизацию госуслуг.",
+roles:"Специалист по цифровой трансформации, руководитель внедрения ГИС, аналитик по автоматизации процессов, менеджер IT-проектов в органах власти",
+skills:"Понимание IT-архитектуры, управление продуктом, работа с ТЗ, базовое программирование, UX-мышление"},
+D:{name:"Правовое обеспечение и нормотворчество",icon:"⚖️",color:"#FFB800",
+desc:"Вы цените чёткость, порядок и юридическую точность. Ваш талант — в структурировании сложных процессов через нормы и регламенты. Вам подходит работа с законопроектами, правовой экспертизой и нормативным регулированием.",
+roles:"Юрист правового управления, специалист по антикоррупционной экспертизе, эксперт по нормотворчеству, сотрудник юридического отдела администрации",
+skills:"Юридический анализ, подготовка НПА, правовая экспертиза, работа с КонсультантПлюс/Гарант, знание административного права"},
+E:{name:"Управление проектами и межведомственное взаимодействие",icon:"🎯",color:"#00E5A0",
+desc:"Вы — организатор и координатор. Ваша сила — в умении объединять разных людей и ведомства для достижения общей цели. Вам подходят проектные офисы, координационные центры и должности, связанные с реализацией комплексных программ.",
+roles:"Руководитель проектного офиса, координатор нацпроекта, специалист по межведомственному взаимодействию, менеджер государственных программ",
+skills:"Проектное управление (PMBOK, Agile), фасилитация, планирование, управление рисками, работа со стейкхолдерами"},
+F:{name:"Финансы и бюджетная политика",icon:"💰",color:"#FF7849",
+desc:"Вы любите точность и ответственность. Бюджет для вас — не абстрактные цифры, а реальный инструмент государственной политики. Вам подходят финансовые управления, казначейства и подразделения, отвечающие за формирование и исполнение бюджетов.",
+roles:"Специалист финансового управления, сотрудник казначейства, бюджетный аналитик, специалист по госзакупкам (44-ФЗ, 223-ФЗ)",
+skills:"Бюджетное планирование, финансовый анализ, работа с СУФД/ГИИС «Электронный бюджет», знание БК РФ, закупочная деятельность"}
+};
+
+const letters=["А","Б","В","Г","Д","Е"];
+let current=0, answers=new Array(12).fill(null);
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+
+function startQuiz(){current=0;answers.fill(null);show('screen-quiz');renderQ()}
+
+function renderQ(){
+  const q=questions[current];
+  const pct=((current+1)/12*100).toFixed(1);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-count').textContent=`${current+1} / 12`;
+  const c=document.getElementById('question-container');
+  let html=`<div class="question-card"><div class="question-number">ВОПРОС ${current+1} ИЗ 12</div><div class="question-text">${q.q}</div><div class="options">`;
+  q.o.forEach((o,i)=>{
+    const sel=answers[current]===i?'selected':'';
+    html+=`<div class="option ${sel}" onclick="pick(${i})"><div class="option-marker">${letters[i]}</div><div class="option-text">${o.t}</div></div>`;
+  });
+  html+=`</div><div class="nav-row">`;
+  if(current>0) html+=`<button class="btn-nav btn-back" onclick="prev()"><svg viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/></svg>Назад</button>`;
+  const dis=answers[current]===null?'disabled':'';
+  const label=current===11?'Результат':'Далее';
+  html+=`<button class="btn-nav btn-next" ${dis} onclick="next()">${label}<svg viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/></svg></button>`;
+  html+=`</div></div>`;
+  c.innerHTML=html;
+}
+
+function pick(i){answers[current]=i;renderQ()}
+function prev(){if(current>0){current--;renderQ()}}
+function next(){if(answers[current]===null)return;if(current<11){current++;renderQ();window.scrollTo({top:0,behavior:'smooth'})}else{showResult()}}
+
+function showResult(){
+  const scores={A:0,B:0,C:0,D:0,E:0,F:0};
+  const keys=["A","B","C","D","E","F"];
+  answers.forEach((a,qi)=>{if(a!==null)scores[questions[qi].o[a].k]++});
+  let maxK="A",maxV=0;
+  keys.forEach(k=>{if(scores[k]>maxV){maxV=scores[k];maxK=k}});
+  const tied=keys.filter(k=>scores[k]===maxV&&k!==maxK);
+  const t=tracks[maxK];
+  const trackNames={A:"А",B:"Б",C:"В",D:"Г",E:"Д",F:"Е"};
+
+  let html=`<div class="result"><div class="result-badge">✨ Твой результат</div>`;
+  html+=`<span class="result-icon">${t.icon}</span>`;
+  html+=`<h2><span class="gradient">${t.name}</span></h2>`;
+  if(tied.length>0){
+    const extra=tied.map(k=>tracks[k].name).join(', ');
+    html+=`<p style="font-size:14px;color:var(--accent);margin-bottom:12px">Смежный профиль: ${extra}</p>`;
+  }
+  html+=`<p class="result-desc">${t.desc}</p>`;
+  html+=`<div class="result-cards">`;
+  html+=`<div class="result-card"><div class="result-card-label">Примеры должностей</div><div class="result-card-text">${t.roles}</div></div>`;
+  html+=`<div class="result-card"><div class="result-card-label">Ключевые компетенции</div><div class="result-card-text">${t.skills}</div></div>`;
+  html+=`</div>`;
+
+  // Score bars
+  html+=`<div class="scores"><div class="scores-title">Твой профиль по всем направлениям</div>`;
+  keys.forEach(k=>{
+    const pct=Math.round(scores[k]/12*100);
+    const c=tracks[k].color;
+    html+=`<div class="score-row"><span class="score-label" title="${tracks[k].name}">${tracks[k].icon}</span><div class="score-track"><div class="score-fill" style="width:0%;background:${c}" data-w="${pct}%"></div></div><span class="score-val">${scores[k]}</span></div>`;
+  });
+  html+=`</div>`;
+
+  html+=`<div class="btn-group"><button class="btn-restart" onclick="startQuiz()">Пройти заново</button><button class="btn-share" onclick="shareResult()">Поделиться</button></div>`;
+  html+=`</div>`;
+
+  document.getElementById('screen-result').innerHTML=html;
+  show('screen-result');
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Animate score bars
+  setTimeout(()=>{document.querySelectorAll('.score-fill').forEach(el=>{el.style.width=el.dataset.w})},100);
+}
+
+function shareResult(){
+  const text="Я прошёл тест «Какая сфера госслужбы тебе подходит?» — попробуй и ты!";
+  if(navigator.share){navigator.share({title:'Тест: госслужба',text}).catch(()=>{})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>toast('Скопировано в буфер обмена'))}
+  else{toast('Поделись ссылкой на эту страницу')}
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+</script>
+</body>
+</html>
